@@ -1,6 +1,6 @@
-import type { Linter } from 'eslint';
-import functionalPlugin from 'eslint-plugin-functional';
-import { createFunctionalRules } from '../rules/functional.js';
+import type { Linter } from "eslint";
+import functionalPlugin from "eslint-plugin-functional";
+import { createFunctionalRules } from "../rules/functional.js";
 
 const createFunctionalConfig = (): Linter.Config => ({
   plugins: {
@@ -10,11 +10,14 @@ const createFunctionalConfig = (): Linter.Config => ({
 });
 
 const createFunctionalTestOverrides = (): Linter.Config => ({
-  files: ['**/*.test.{ts,tsx,js,jsx}', '**/__tests__/**', '**/test/setup.ts'],
+  files: ["**/*.test.{ts,tsx,js,jsx}", "**/__tests__/**"],
   rules: {
-    'functional/no-let': 'off',
-    'functional/no-loop-statements': 'off',
+    "functional/no-let": "off",
+    "functional/no-loop-statements": "off",
   },
 });
 
-export const functionalPreset: Linter.Config[] = [createFunctionalConfig(), createFunctionalTestOverrides()];
+export const functionalPreset: Linter.Config[] = [
+  createFunctionalConfig(),
+  createFunctionalTestOverrides(),
+];

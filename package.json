@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-ai-guardrails",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Strict, AI-friendly ESLint config with functional programming and TypeScript guardrails",
   "type": "module",
   "main": "dist/main.js",
@@ -20,13 +20,11 @@
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
-    "@eslint/compat": ">=1.0.0",
     "@typescript-eslint/eslint-plugin": ">=8.0.0",
     "@typescript-eslint/parser": ">=8.0.0",
     "eslint": ">=9.0.0",
     "eslint-config-prettier": ">=10.0.0",
     "eslint-plugin-canonical": ">=5.0.0",
-    "eslint-plugin-deprecation": ">=2.0.0",
     "eslint-plugin-functional": ">=9.0.0",
     "eslint-plugin-import": ">=2.0.0",
     "eslint-plugin-no-comments": ">=1.0.0",
@@ -37,11 +35,6 @@
     "eslint-plugin-unicorn": ">=63.0.0",
     "prettier": ">=3.0.0",
     "typescript": ">=5.0.0"
-  },
-  "peerDependenciesMeta": {
-    "eslint-plugin-deprecation": {
-      "optional": true
-    }
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

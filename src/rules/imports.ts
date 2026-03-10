@@ -1,19 +1,24 @@
-import type { Linter } from 'eslint';
+import type { Linter } from "eslint";
 
 export const createImportRules = (): Linter.RulesRecord => ({
-  'import/order': [
-    'error',
+  "import/order": [
+    "error",
     {
-      groups: ['builtin', 'external', 'internal', ['parent', 'sibling', 'index']],
-      'newlines-between': 'never',
+      groups: [
+        "builtin",
+        "external",
+        "internal",
+        ["parent", "sibling", "index"],
+      ],
+      "newlines-between": "never",
       alphabetize: {
-        order: 'asc',
+        order: "asc",
         caseInsensitive: true,
       },
     },
   ],
-  'import/no-duplicates': 'error',
-  'import/first': 'error',
-  'import/no-cycle': 'error',
-  'import/newline-after-import': 'error',
+  "import/no-duplicates": "error",
+  "import/first": "error",
+  "import/no-cycle": "error",
+  "import/newline-after-import": "error",
 });

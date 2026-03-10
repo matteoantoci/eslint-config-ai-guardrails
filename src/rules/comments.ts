@@ -1,5 +1,5 @@
-import type { Linter } from 'eslint';
+import type { Linter } from "eslint";
 
 export const createCommentRules = (): Linter.RulesRecord => ({
-  'no-comments/disallowComments': 'error',
+  "no-comments/disallowComments": "error",
 });

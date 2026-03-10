@@ -1,17 +1,20 @@
-import type { Linter } from 'eslint';
-import { functionalPreset } from './presets/functional.js';
-import { recommendedPreset } from './presets/recommended.js';
-import { typescriptPreset, createTypeScriptPreset } from './presets/typescript.js';
-import { createBaseRules } from './rules/base.js';
-import { createCommentRules } from './rules/comments.js';
-import { createComplexityRules } from './rules/complexity.js';
-import { createFunctionalRules } from './rules/functional.js';
-import { createImportRules } from './rules/imports.js';
-import { createReExportRules } from './rules/re-exports.js';
-import { createRestrictionRules } from './rules/restrictions.js';
-import { getSecurityRules } from './rules/security.js';
-import { getSonarJSRules } from './rules/sonarjs.js';
-import { createTestOverrides } from './rules/test-overrides.js';
+import type { Linter } from "eslint";
+import { functionalPreset } from "./presets/functional.js";
+import { recommendedPreset } from "./presets/recommended.js";
+import {
+  typescriptPreset,
+  createTypeScriptPreset,
+} from "./presets/typescript.js";
+import { createBaseRules } from "./rules/base.js";
+import { createCommentRules } from "./rules/comments.js";
+import { createComplexityRules } from "./rules/complexity.js";
+import { createFunctionalRules } from "./rules/functional.js";
+import { createImportRules } from "./rules/imports.js";
+import { createReExportRules } from "./rules/re-exports.js";
+import { createRestrictionRules } from "./rules/restrictions.js";
+import { getSecurityRules } from "./rules/security.js";
+import { getSonarJSRules } from "./rules/sonarjs.js";
+import { createTestOverrides } from "./rules/test-overrides.js";
 
 export interface TypeScriptOptions {
   tsconfigPath?: string;
