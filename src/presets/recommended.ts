@@ -13,6 +13,7 @@ import unicorn from "eslint-plugin-unicorn";
 import { createBaseRules } from "../rules/base.js";
 import { createCommentRules } from "../rules/comments.js";
 import { createComplexityRules } from "../rules/complexity.js";
+import { createFunctionalRules } from "../rules/functional.js";
 import { createImportRules } from "../rules/imports.js";
 import { createReExportRules } from "../rules/re-exports.js";
 import { createRestrictionRules } from "../rules/restrictions.js";
@@ -59,6 +60,7 @@ const getUnicornRecommendedRules = (): Linter.RulesRecord => {
 const createMainRules = (): Linter.RulesRecord => ({
   ...getUnicornRecommendedRules(),
   ...createBaseRules(),
+  ...createFunctionalRules(),
   ...createImportRules(),
   ...createCommentRules(),
   ...createRestrictionRules(),

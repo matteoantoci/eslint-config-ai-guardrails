@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-ai-guardrails",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Strict, AI-friendly ESLint config with functional programming and TypeScript guardrails",
   "type": "module",
   "main": "dist/main.js",
@@ -52,6 +52,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mantoci/eslint-config-ai-guardrails"
+    "url": "git+https://github.com/mantoci/eslint-config-ai-guardrails.git"
   }
 }
