@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-ai-guardrails",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Strict, AI-friendly ESLint config with functional programming and TypeScript guardrails",
   "type": "module",
   "main": "dist/main.js",
