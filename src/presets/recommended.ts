@@ -81,7 +81,7 @@ const createMainConfig = (): Linter.Config => ({
 });
 
 const createTestConfig = (): Linter.Config => ({
-  files: ["**/*.test.{ts,tsx,js,jsx}", "**/__tests__/**", "**/test/setup.ts"],
+  files: ["**/*.test.{ts,tsx,js,jsx}", "**/__tests__/**"],
   rules: createTestOverrides(),
 });
 
@@ -89,9 +89,7 @@ const getGlobalIgnorePatterns = (): string[] => [
   "**/node_modules/**",
   "**/dist/**",
   "**/build/**",
-  "**/.next/**",
   "**/out/**",
-  "**/next-env.d.ts",
 ];
 
 export const recommendedPreset: Linter.Config[] = [
