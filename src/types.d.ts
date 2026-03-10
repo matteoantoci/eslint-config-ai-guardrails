@@ -15,10 +15,3 @@ declare module "eslint-plugin-security" {
   };
   export default plugin;
 }
-
-declare module "eslint-plugin-deprecation" {
-  import type { ESLint } from "eslint";
-
-  const plugin: ESLint.Plugin;
-  export default plugin;
-}

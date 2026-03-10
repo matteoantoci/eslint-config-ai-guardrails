@@ -20,7 +20,6 @@ npm install -D \
   @typescript-eslint/parser \
   eslint-config-prettier \
   eslint-plugin-canonical \
-  eslint-plugin-deprecation \
   eslint-plugin-functional \
   eslint-plugin-import \
   eslint-plugin-no-comments \
