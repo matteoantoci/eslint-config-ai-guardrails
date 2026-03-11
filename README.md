@@ -4,15 +4,34 @@
 
 [![npm version](https://img.shields.io/npm/v/eslint-config-ai-guardrails)](https://www.npmjs.com/package/eslint-config-ai-guardrails) [![license](https://img.shields.io/npm/l/eslint-config-ai-guardrails)](LICENSE)
 
-## Quick Start
+## 🤔 Why This Exists
 
-**Copy-paste this** into `eslint.config.mjs`:
+**Guardrails, not guidelines.**
+
+AI coding tools are now used by 85% of developers. They generate code fast—but often produce 180-line functions with magic numbers (`10000`), useless comments ("// download the file"), and spaghetti logic that *works* but nobody can maintain.
+
+Traditional linting nudges humans. **AI needs hard constraints it cannot bypass.**
+
+When you enforce:
+- 🚫 **No comments** → AI writes self-documenting code with clear names
+- 🔢 **Max 2 parameters** → Forces object destructuring instead of `func(a, b, c, d, e, f)`
+- 📏 **50 lines per function** → AI extracts helpers as it develops
+- 📦 **250 lines per file** → Proper module separation
+- 🎯 **No magic numbers** → Named constants like `VISIBILITY_TIMEOUT_MS`
+
+The agent has no choice but to refactor. It hits a limit, breaks things down, keeps going. The result is readable, maintainable code that you actually want to live with.
+
+This isn't about rejecting AI. It's about **responsible AI coding**—getting quality output from agents that would otherwise produce chaos.
+
+## 🚀 Quick Start
+
+**📋 Copy-paste this** into `eslint.config.mjs`:
 
 ```js
 import aiGuardrails from 'eslint-config-ai-guardrails';
 
-// Includes all presets (recommended + typescript + functional)
-// Remove typescript/functional lines if you don't need them
+// ✨ Includes all presets (recommended + typescript + functional)
+// 📝 Remove typescript/functional lines if you don't need them
 export default [
   {
     files: ['**/*.{ts,tsx}'],
@@ -27,9 +46,9 @@ export default [
 ];
 ```
 
-[Installation](#installation) · [Presets](#presets) · [Examples](#framework-examples) · [Troubleshooting](#troubleshooting)
+[📦 Installation](#installation) · [📋 Presets](#presets) · [🔧 Examples](#framework-examples) · [🛠️ Troubleshooting](#troubleshooting)
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install -D eslint-config-ai-guardrails
@@ -47,7 +66,7 @@ npm install -D eslint prettier typescript \
   eslint-config-prettier eslint-plugin-prettier
 ```
 
-## Presets
+## 📋 Presets
 
 Choose your strictness:
 
@@ -55,9 +74,9 @@ Choose your strictness:
 |--------|----------|-------------|
 | `recommended` | Most projects | `...aiGuardrails.config.recommended` |
 | `typescript` | TypeScript codebases | `...aiGuardrails.config.typescript` |
-| `functional` | FP-only codebases | `...aiGuardrails.config.functional` |
+| `functional` ⭐ | FP-only codebases | `...aiGuardrails.config.functional` |
 
-### Test File Overrides
+### 🧪 Test File Overrides
 
 Test files often need relaxed rules (e.g., longer functions, more parameters). The `testOverrides` rule set disables strict complexity and functional rules for test files while keeping type safety.
 
@@ -68,7 +87,7 @@ Test files often need relaxed rules (e.g., longer functions, more parameters). T
 }
 ```
 
-## Configuration
+## ⚙️ Configuration
 
 ### File Patterns
 
@@ -101,30 +120,30 @@ Common patterns:
 }
 ```
 
-## What's Included
+## ✨ What's Included
 
 ### `recommended`
-- Prettier integration
-- Import ordering & deduplication
-- Complexity limits (50 lines/function, 250 lines/file)
-- Security & code quality (SonarJS)
-- No comments policy
-- Arrow functions preferred
-- Early returns enforced
+- 🎨 **Prettier integration** — Consistent formatting
+- 📦 **Import ordering** — Automatic deduplication & sorting
+- 📏 **Complexity limits** — 50 lines/function, 250 lines/file
+- 🔒 **Security** — Vulnerability detection (SonarJS)
+- 🚫 **No comments policy** — Forces self-documenting code
+- ➡️ **Arrow functions** — Consistent function style
+- 🔄 **Early returns** — No nested else/else-if blocks
 
 ### `typescript`
-- Strict type safety (`no-unsafe-*`, `no-any`)
-- Naming conventions (camelCase, PascalCase)
-- Nullish coalescing preference
-- No non-null assertions
+- 🔒 **Strict type safety** — `no-unsafe-*`, `no-explicit-any`
+- 📛 **Naming conventions** — camelCase, PascalCase, UPPER_CASE
+- ❓ **Nullish coalescing** — Prefer `??` over `||`
+- ❗ **No non-null assertions** — Safe null handling
 
 ### `functional` ⭐
-- No `let` declarations
-- No classes or inheritance
-- No `this` expressions
-- No loops (use `map`, `filter`, `reduce`)
+- 🚫 **No `let` declarations** — Immutable data only
+- 🚫 **No classes** — Functions over OOP
+- 🚫 **No `this` expressions** — Pure functions
+- 🚫 **No loops** — Use `map`, `filter`, `reduce`
 
-## Framework Examples
+## 🔧 Framework Examples
 
 ### Next.js
 
@@ -188,7 +207,7 @@ export default [
 ];
 ```
 
-## Troubleshooting
+## 🛠️ Troubleshooting
 
 ### "Prettier must be last"
 
@@ -233,7 +252,7 @@ React uses classes and `this`. Either exclude React files or disable specific ru
 }
 ```
 
-## Prettier Options
+## 🎨 Prettier Options
 
 | Option | Value |
 |--------|-------|
@@ -266,7 +285,7 @@ Create `.prettierrc`:
 }
 ```
 
-## Advanced Usage
+## 🧪 Advanced Usage
 
 Access individual rule sets:
 
@@ -283,6 +302,6 @@ aiGuardrails.rules.reExports     // Canonical re-export rules
 aiGuardrails.rules.testOverrides // Relaxations for test files
 ```
 
-## License
+## 📄 License
 
 MIT
