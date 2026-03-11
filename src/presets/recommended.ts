@@ -85,16 +85,8 @@ const createTestConfig = (): Linter.Config => ({
   rules: createTestOverrides(),
 });
 
-const getGlobalIgnorePatterns = (): string[] => [
-  "**/node_modules/**",
-  "**/dist/**",
-  "**/build/**",
-  "**/out/**",
-];
-
 export const recommendedPreset: Linter.Config[] = [
   createMainConfig(),
   createTestConfig(),
-  { ignores: getGlobalIgnorePatterns() },
   eslintConfigPrettier,
 ];
