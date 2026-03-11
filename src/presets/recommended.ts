@@ -88,5 +88,6 @@ const createTestConfig = (): Linter.Config => ({
 export const recommendedPreset: Linter.Config[] = [
   createMainConfig(),
   createTestConfig(),
-  eslintConfigPrettier,
 ];
+
+export { eslintConfigPrettier as prettierConfig };

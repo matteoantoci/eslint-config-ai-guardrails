@@ -1,7 +1,22 @@
 import type { Linter } from "eslint";
 
 export const createBaseRules = (): Linter.RulesRecord => ({
-  "prettier/prettier": "error",
+  "prettier/prettier": [
+    "error",
+    {
+      printWidth: 120,
+      tabWidth: 2,
+      useTabs: false,
+      semi: true,
+      singleQuote: true,
+      quoteProps: "as-needed",
+      trailingComma: "es5",
+      bracketSpacing: true,
+      bracketSameLine: false,
+      arrowParens: "always",
+      endOfLine: "lf",
+    },
+  ],
   "prefer-arrow-callback": "error",
   "no-var": "error",
   "no-param-reassign": "error",

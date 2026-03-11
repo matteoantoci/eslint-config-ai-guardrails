@@ -1,6 +1,6 @@
 import type { Linter } from "eslint";
 import { functionalPreset } from "./presets/functional.js";
-import { recommendedPreset } from "./presets/recommended.js";
+import { prettierConfig, recommendedPreset } from "./presets/recommended.js";
 import {
   typescriptPreset,
   createTypeScriptPreset,
@@ -47,6 +47,7 @@ interface AiGuardrails {
   config: AiGuardrailsConfig;
   create: AiGuardrailsCreate;
   rules: AiGuardrailsRules;
+  prettier: Linter.Config;
 }
 
 const aiGuardrails: AiGuardrails = {
@@ -70,6 +71,7 @@ const aiGuardrails: AiGuardrails = {
     sonarjs: getSonarJSRules(),
     testOverrides: createTestOverrides(),
   },
+  prettier: prettierConfig,
 };
 
 export default aiGuardrails;

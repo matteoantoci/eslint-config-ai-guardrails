@@ -32,6 +32,8 @@ npm install -D \
 
 ## Usage
 
+**Important:** `aiGuardrails.prettier` must always be the **last config** in your array. This ensures Prettier's rule disables take effect after all other rules are applied.
+
 ### Plain JS/Node project
 
 ```js
@@ -40,6 +42,7 @@ import aiGuardrails from 'eslint-config-ai-guardrails';
 
 export default [
   ...aiGuardrails.config.recommended,
+  aiGuardrails.prettier,
 ];
 ```
 
@@ -52,6 +55,7 @@ import aiGuardrails from 'eslint-config-ai-guardrails';
 export default [
   ...aiGuardrails.config.recommended,
   ...aiGuardrails.config.typescript,
+  aiGuardrails.prettier,
 ];
 ```
 
@@ -65,6 +69,7 @@ export default [
   ...aiGuardrails.config.recommended,
   ...aiGuardrails.config.typescript,
   ...aiGuardrails.config.functional,
+  aiGuardrails.prettier,
 ];
 ```
 
@@ -78,8 +83,43 @@ export default [
   ...aiGuardrails.config.recommended,
   ...aiGuardrails.create.typescript({ tsconfigPath: './tsconfig.build.json' }),
   ...aiGuardrails.config.functional,
+  aiGuardrails.prettier,
 ];
 ```
+
+### With Next.js
+
+```js
+// eslint.config.mjs
+import nextPlugin from '@next/eslint-plugin-next';
+import aiGuardrails from 'eslint-config-ai-guardrails';
+
+export default [
+  {
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    plugins: { '@next/next': nextPlugin },
+    rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs['core-web-vitals'].rules,
+    },
+  },
+  ...aiGuardrails.config.recommended,
+  ...aiGuardrails.create.typescript(),
+  aiGuardrails.prettier,
+];
+```
+
+### With Prettier plugins (e.g., Tailwind)
+
+If you use Prettier plugins like `prettier-plugin-tailwindcss`, create a minimal `.prettierrc` with just the plugin:
+
+```json
+{
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
+```
+
+All other Prettier options are configured via ESLint (see [Prettier Options](#prettier-options)).
 
 ## Presets
 
@@ -116,6 +156,59 @@ export default [
 - No `this` expressions
 - No loop statements
 - Prefer property signatures
+
+## Prettier Options
+
+The following Prettier options are configured via ESLint:
+
+| Option | Value |
+|--------|-------|
+| `printWidth` | 120 |
+| `tabWidth` | 2 |
+| `useTabs` | false |
+| `semi` | true |
+| `singleQuote` | true |
+| `quoteProps` | "as-needed" |
+| `trailingComma` | "es5" |
+| `bracketSpacing` | true |
+| `bracketSameLine` | false |
+| `arrowParens` | "always" |
+| `endOfLine` | "lf" |
+
+Override these in your ESLint config if needed:
+
+```js
+export default [
+  ...aiGuardrails.config.recommended,
+  {
+    rules: {
+      'prettier/prettier': ['error', { printWidth: 80 }],
+    },
+  },
+  aiGuardrails.prettier,
+];
+```
+
+## Why `aiGuardrails.prettier` Must Be Last
+
+In ESLint flat config, later configs override earlier ones. `eslint-config-prettier` disables formatting rules that conflict with Prettier. If it's not last, subsequent configs could re-enable those rules, causing conflicts.
+
+**Wrong:**
+```js
+export default [
+  ...aiGuardrails.config.recommended, // includes prettier disables
+  ...aiGuardrails.config.typescript,  // might re-enable some rules ❌
+];
+```
+
+**Correct:**
+```js
+export default [
+  ...aiGuardrails.config.recommended,
+  ...aiGuardrails.config.typescript,
+  aiGuardrails.prettier, // ensures all formatting rules are disabled ✅
+];
+```
 
 ## Advanced Usage
 
