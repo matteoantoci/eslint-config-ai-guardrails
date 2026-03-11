@@ -11,6 +11,7 @@ const castPlugins = (
 ): Linter.Config["plugins"] => plugins as unknown as Linter.Config["plugins"];
 
 const createRules = (): Linter.RulesRecord => ({
+  "@typescript-eslint/no-deprecated": "error",
   "@typescript-eslint/no-unnecessary-condition": "error",
   "@typescript-eslint/prefer-nullish-coalescing": "error",
   "@typescript-eslint/prefer-optional-chain": "error",

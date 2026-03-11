@@ -8,7 +8,7 @@
 
 **Guardrails, not guidelines.**
 
-AI coding tools are now used by 85% of developers. They generate code fast—but often produce 180-line functions with magic numbers (`10000`), useless comments ("// download the file"), and spaghetti logic that *works* but nobody can maintain.
+AI coding tools are now used by most developers. They generate code fast—but often produce 180-line functions with magic numbers (`10000`), useless comments ("// download the file"), and spaghetti logic that *works* but nobody can maintain.
 
 Traditional linting nudges humans. **AI needs hard constraints it cannot bypass.**
 
@@ -132,6 +132,7 @@ Common patterns:
 - 🔄 **Early returns** — No nested else/else-if blocks
 
 ### `typescript`
+- ⚠️ **No deprecated APIs** — Forces AI to use current library methods
 - 🔒 **Strict type safety** — `no-unsafe-*`, `no-explicit-any`
 - 📛 **Naming conventions** — camelCase, PascalCase, UPPER_CASE
 - ❓ **Nullish coalescing** — Prefer `??` over `||`
