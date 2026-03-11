@@ -19,13 +19,12 @@ import { createReExportRules } from "../rules/re-exports.js";
 import { createRestrictionRules } from "../rules/restrictions.js";
 import { getSecurityRules } from "../rules/security.js";
 import { getSonarJSRules } from "../rules/sonarjs.js";
-import { createTestOverrides } from "../rules/test-overrides.js";
 
 const castPlugins = (
   plugins: Record<string, unknown>,
 ): Linter.Config["plugins"] => plugins as unknown as Linter.Config["plugins"];
 
-const createPluginConfig = () =>
+const createPlugins = () =>
   castPlugins({
     prettier: prettierPlugin,
     "prefer-arrow-functions": preferArrowPlugin,
@@ -39,7 +38,7 @@ const createPluginConfig = () =>
     "@typescript-eslint": tsPlugin,
   });
 
-const createImportSettings = () => ({
+const createSettings = () => ({
   "import/resolver": {
     typescript: {
       alwaysTryTypes: true,
@@ -57,7 +56,7 @@ const getUnicornRecommendedRules = (): Linter.RulesRecord => {
   return recommended.rules as Linter.RulesRecord;
 };
 
-const createMainRules = (): Linter.RulesRecord => ({
+const createRules = (): Linter.RulesRecord => ({
   ...getUnicornRecommendedRules(),
   ...createBaseRules(),
   ...createFunctionalRules(),
@@ -70,24 +69,14 @@ const createMainRules = (): Linter.RulesRecord => ({
   ...createReExportRules(),
 });
 
-const createMainConfig = (): Linter.Config => ({
-  plugins: createPluginConfig(),
-  settings: createImportSettings(),
+export const recommendedPreset: Linter.Config = {
+  plugins: createPlugins(),
+  settings: createSettings(),
   languageOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  rules: createMainRules(),
-});
-
-const createTestConfig = (): Linter.Config => ({
-  files: ["**/*.test.{ts,tsx,js,jsx}", "**/__tests__/**"],
-  rules: createTestOverrides(),
-});
-
-export const recommendedPreset: Linter.Config[] = [
-  createMainConfig(),
-  createTestConfig(),
-];
+  rules: createRules(),
+};
 
 export { eslintConfigPrettier as prettierConfig };

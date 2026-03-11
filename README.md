@@ -30,122 +30,116 @@ npm install -D \
   eslint-plugin-unicorn
 ```
 
-## Usage
+## Quick Start
 
-**Important:** `aiGuardrails.prettier` must always be the **last config** in your array. This ensures Prettier's rule disables take effect after all other rules are applied.
-
-### Plain JS/Node project
+Copy this to your `eslint.config.mjs`:
 
 ```js
-// eslint.config.mjs
-import aiGuardrails from 'eslint-config-ai-guardrails';
-
-export default [
-  ...aiGuardrails.config.recommended,
-  aiGuardrails.prettier,
-];
-```
-
-### TypeScript project
-
-```js
-// eslint.config.mjs
-import aiGuardrails from 'eslint-config-ai-guardrails';
-
-export default [
-  ...aiGuardrails.config.recommended,
-  ...aiGuardrails.config.typescript,
-  aiGuardrails.prettier,
-];
-```
-
-### TypeScript + Strict Functional Programming
-
-```js
-// eslint.config.mjs
-import aiGuardrails from 'eslint-config-ai-guardrails';
-
-export default [
-  ...aiGuardrails.config.recommended,
-  ...aiGuardrails.config.typescript,
-  ...aiGuardrails.config.functional,
-  aiGuardrails.prettier,
-];
-```
-
-### With custom TypeScript config path
-
-```js
-// eslint.config.mjs
-import aiGuardrails from 'eslint-config-ai-guardrails';
-
-export default [
-  ...aiGuardrails.config.recommended,
-  ...aiGuardrails.create.typescript({ tsconfigPath: './tsconfig.build.json' }),
-  ...aiGuardrails.config.functional,
-  aiGuardrails.prettier,
-];
-```
-
-### With Next.js
-
-```js
-// eslint.config.mjs
-import nextPlugin from '@next/eslint-plugin-next';
 import aiGuardrails from 'eslint-config-ai-guardrails';
 
 export default [
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
-    plugins: { '@next/next': nextPlugin },
-    rules: {
-      ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs['core-web-vitals'].rules,
-    },
+    files: ['**/*.{ts,tsx,js,jsx}'],
+    ...aiGuardrails.config.recommended,
   },
-  ...aiGuardrails.config.recommended,
-  ...aiGuardrails.create.typescript(),
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    ...aiGuardrails.config.typescript,
+  },
+  {
+    files: ['**/*.test.{ts,tsx}', '**/__tests__/**'],
+    rules: aiGuardrails.rules.testOverrides,
+  },
   aiGuardrails.prettier,
+  { ignores: ['dist/**', 'node_modules/**'] },
 ];
 ```
 
-### With Prettier plugins (e.g., Tailwind)
+**Important:** `aiGuardrails.prettier` must be last.
 
-If you use Prettier plugins like `prettier-plugin-tailwindcss`, create a minimal `.prettierrc` with just the plugin:
+## Configuration
 
-```json
+### File Patterns
+
+You control which files each config applies to:
+
+```js
 {
-  "plugins": ["prettier-plugin-tailwindcss"]
+  files: ['**/*.{ts,tsx,js,jsx}'],  // Your pattern here
+  ...aiGuardrails.config.recommended,
 }
 ```
 
-All other Prettier options are configured via ESLint (see [Prettier Options](#prettier-options)).
+Common patterns:
+- Source files: `['**/*.{ts,tsx,js,jsx}']`
+- TypeScript only: `['**/*.ts', '**/*.tsx']`
+- Tests: `['**/*.test.{ts,tsx}', '**/__tests__/**']` or `['**/*.spec.{ts,tsx}', '**/test/**']`
+
+### Ignore Patterns
+
+Add your project-specific ignores:
+
+```js
+{ ignores: ['dist/**', 'coverage/**', '.next/**', '*.generated.ts'] }
+```
+
+### Custom TypeScript Config
+
+```js
+{
+  files: ['**/*.ts', '**/*.tsx'],
+  ...aiGuardrails.create.typescript({ tsconfigPath: './tsconfig.build.json' }),
+}
+```
 
 ## Presets
 
 | Preset | Description |
 |--------|-------------|
-| `recommended` | Base rules: prettier, unicorn, imports, complexity, security, sonarjs, comments + test overrides |
-| `typescript` | Type safety: `no-unsafe-*`, `no-any`, naming conventions, deprecation warnings |
-| `functional` | FP strictness: `no-let`, `no-classes`, `no-this`, `no-loops` + test overrides |
+| `recommended` | Base rules: prettier, unicorn, imports, complexity, security, sonarjs, comments |
+| `typescript` | Type safety: `no-unsafe-*`, `no-any`, naming conventions |
+| `functional` | FP strictness: `no-let`, `no-classes`, `no-this`, `no-loops` |
+
+### Combining Presets
+
+```js
+export default [
+  {
+    files: ['**/*.{ts,tsx,js,jsx}'],
+    ...aiGuardrails.config.recommended,
+    rules: {
+      ...aiGuardrails.config.recommended.rules,
+      ...aiGuardrails.config.functional.rules,
+    },
+  },
+  // ...
+];
+```
+
+Or use functional rules separately for stricter enforcement:
+
+```js
+{
+  files: ['**/lib/**/*.ts'],  // Only core library files
+  ...aiGuardrails.config.functional,
+}
+```
 
 ## What's Included
 
 ### `recommended`
-- Prettier integration
+- Prettier integration with sensible defaults
 - Unicorn recommended rules (with sane defaults)
 - Import ordering and deduplication
-- Complexity limits (50 lines per function, 250 lines per file, max depth 1)
+- Complexity limits (50 lines per function, 250 lines per file)
 - Security rules from `eslint-plugin-security`
 - Code quality from `eslint-plugin-sonarjs`
-- No comments policy (except in test files)
+- No comments policy
 - Arrow functions enforcement
 - Early returns (no else/else-if)
-- Test file relaxations
 
 ### `typescript`
 - Strict type safety (`no-unsafe-*`, `no-explicit-any`)
-- Deprecation warnings
 - Nullish coalescing & optional chaining preference
 - Naming conventions (camelCase, PascalCase, UPPER_CASE)
 - No non-null assertions
@@ -154,73 +148,96 @@ All other Prettier options are configured via ESLint (see [Prettier Options](#pr
 - No `let` declarations
 - No classes or inheritance
 - No `this` expressions
-- No loop statements
-- Prefer property signatures
+- No loop statements (use `Array#map`, `Array#filter`, etc.)
 
 ## Prettier Options
 
-The following Prettier options are configured via ESLint:
+Configured via ESLint:
 
 | Option | Value |
 |--------|-------|
 | `printWidth` | 120 |
 | `tabWidth` | 2 |
-| `useTabs` | false |
 | `semi` | true |
 | `singleQuote` | true |
-| `quoteProps` | "as-needed" |
 | `trailingComma` | "es5" |
-| `bracketSpacing` | true |
-| `bracketSameLine` | false |
-| `arrowParens` | "always" |
-| `endOfLine` | "lf" |
 
-Override these in your ESLint config if needed:
+### With Prettier Plugins
+
+If you use plugins like `prettier-plugin-tailwindcss`, create a minimal `.prettierrc`:
+
+```json
+{
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
+```
+
+### Override Prettier Options
 
 ```js
-export default [
+{
+  files: ['**/*.{ts,tsx}'],
   ...aiGuardrails.config.recommended,
+  rules: {
+    ...aiGuardrails.config.recommended.rules,
+    'prettier/prettier': ['error', { printWidth: 80 }],
+  },
+}
+```
+
+## Framework Examples
+
+### Next.js
+
+```js
+import nextPlugin from '@next/eslint-plugin-next';
+import aiGuardrails from 'eslint-config-ai-guardrails';
+
+export default [
   {
+    files: ['**/*.{ts,tsx}'],
+    plugins: { '@next/next': nextPlugin },
     rules: {
-      'prettier/prettier': ['error', { printWidth: 80 }],
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs['core-web-vitals'].rules,
     },
   },
+  {
+    files: ['**/*.{ts,tsx,js,jsx}'],
+    ...aiGuardrails.config.recommended,
+  },
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    ...aiGuardrails.config.typescript,
+  },
+  {
+    files: ['**/*.test.{ts,tsx}', '**/__tests__/**'],
+    rules: aiGuardrails.rules.testOverrides,
+  },
   aiGuardrails.prettier,
+  { ignores: ['.next/**', 'next-env.d.ts', 'dist/**'] },
 ];
 ```
 
 ## Why `aiGuardrails.prettier` Must Be Last
 
-In ESLint flat config, later configs override earlier ones. `eslint-config-prettier` disables formatting rules that conflict with Prettier. If it's not last, subsequent configs could re-enable those rules, causing conflicts.
-
-**Wrong:**
-```js
-export default [
-  ...aiGuardrails.config.recommended, // includes prettier disables
-  ...aiGuardrails.config.typescript,  // might re-enable some rules ❌
-];
-```
-
-**Correct:**
-```js
-export default [
-  ...aiGuardrails.config.recommended,
-  ...aiGuardrails.config.typescript,
-  aiGuardrails.prettier, // ensures all formatting rules are disabled ✅
-];
-```
+`eslint-config-prettier` disables formatting rules that conflict with Prettier. In ESLint flat config, later entries override earlier ones. If prettier isn't last, subsequent configs could re-enable conflicting rules.
 
 ## Advanced Usage
 
 Access individual rule sets:
 
 ```js
-import aiGuardrails from 'eslint-config-ai-guardrails';
-
-console.log(aiGuardrails.rules.base);
-console.log(aiGuardrails.rules.functional);
-console.log(aiGuardrails.rules.imports);
-// etc.
+aiGuardrails.rules.base         // Base rules (prettier, arrow functions, etc.)
+aiGuardrails.rules.functional   // Functional programming rules
+aiGuardrails.rules.imports      // Import ordering rules
+aiGuardrails.rules.comments     // No comments policy
+aiGuardrails.rules.restrictions // No else, no IIFE
+aiGuardrails.rules.complexity   // Max lines, depth, params
+aiGuardrails.rules.security     // Security plugin rules
+aiGuardrails.rules.sonarjs      // SonarJS rules
+aiGuardrails.rules.reExports    // Canonical re-export rules
+aiGuardrails.rules.testOverrides // Relaxations for test files
 ```
 
 ## License

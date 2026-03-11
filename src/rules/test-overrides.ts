@@ -7,6 +7,8 @@ export const createTestOverrides = (): Linter.RulesRecord => ({
   "functional/no-classes": "off",
   "functional/no-class-inheritance": "off",
   "functional/no-this-expressions": "off",
+  "functional/no-let": "off",
+  "functional/no-loop-statements": "off",
   "no-magic-numbers": "off",
   "@typescript-eslint/no-unsafe-assignment": "off",
   "@typescript-eslint/no-non-null-assertion": "off",

@@ -16,18 +16,18 @@ import { getSecurityRules } from "./rules/security.js";
 import { getSonarJSRules } from "./rules/sonarjs.js";
 import { createTestOverrides } from "./rules/test-overrides.js";
 
-export interface TypeScriptOptions {
-  tsconfigPath?: string;
-}
+export type { TypeScriptOptions } from "./presets/typescript.js";
 
 interface AiGuardrailsConfig {
-  recommended: Linter.Config[];
-  typescript: Linter.Config[];
-  functional: Linter.Config[];
+  recommended: Linter.Config;
+  typescript: Linter.Config;
+  functional: Linter.Config;
 }
 
 interface AiGuardrailsCreate {
-  typescript: (options?: TypeScriptOptions) => Linter.Config[];
+  typescript: (
+    options?: import("./presets/typescript.js").TypeScriptOptions,
+  ) => Linter.Config;
 }
 
 interface AiGuardrailsRules {

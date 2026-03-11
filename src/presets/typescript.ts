@@ -2,7 +2,7 @@ import tsPlugin from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import type { Linter } from "eslint";
 
-interface TypeScriptOptions {
+export interface TypeScriptOptions {
   tsconfigPath?: string;
 }
 
@@ -10,7 +10,7 @@ const castPlugins = (
   plugins: Record<string, unknown>,
 ): Linter.Config["plugins"] => plugins as unknown as Linter.Config["plugins"];
 
-const createTypeScriptRules = (): Linter.RulesRecord => ({
+const createRules = (): Linter.RulesRecord => ({
   "@typescript-eslint/no-unnecessary-condition": "error",
   "@typescript-eslint/prefer-nullish-coalescing": "error",
   "@typescript-eslint/prefer-optional-chain": "error",
@@ -41,31 +41,28 @@ const createTypeScriptRules = (): Linter.RulesRecord => ({
   ],
 });
 
-const createTypeScriptPlugins = () =>
+const createPlugins = () =>
   castPlugins({
     "@typescript-eslint": tsPlugin,
   });
 
 export const createTypeScriptPreset = (
   options: TypeScriptOptions = {},
-): Linter.Config[] => {
+): Linter.Config => {
   const { tsconfigPath = "./tsconfig.json" } = options;
 
-  return [
-    {
-      files: ["**/*.ts", "**/*.tsx"],
-      plugins: createTypeScriptPlugins(),
-      languageOptions: {
-        parser: tsParser,
-        parserOptions: {
-          project: tsconfigPath,
-          ecmaVersion: "latest",
-          sourceType: "module",
-        },
+  return {
+    plugins: createPlugins(),
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        project: tsconfigPath,
+        ecmaVersion: "latest",
+        sourceType: "module",
       },
-      rules: createTypeScriptRules(),
     },
-  ];
+    rules: createRules(),
+  };
 };
 
-export const typescriptPreset: Linter.Config[] = createTypeScriptPreset();
+export const typescriptPreset: Linter.Config = createTypeScriptPreset();
