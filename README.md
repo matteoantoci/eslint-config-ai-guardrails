@@ -44,7 +44,7 @@ npm install -D eslint prettier typescript \
   eslint-plugin-security eslint-plugin-sonarjs \
   eslint-plugin-functional eslint-plugin-canonical \
   eslint-plugin-prefer-arrow-functions eslint-plugin-no-comments \
-  eslint-config-prettier eslint-plugin-prettier @eslint/compat
+  eslint-config-prettier eslint-plugin-prettier
 ```
 
 ## Presets
