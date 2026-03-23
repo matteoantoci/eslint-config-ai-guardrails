@@ -22,5 +22,15 @@ export const createRestrictionRules = (): Linter.RulesRecord => ({
       message:
         'Avoid using "as unknown as" type assertions. Use proper type guards or narrowing instead.',
     },
+    {
+      selector: "ExportNamedDeclaration[source]",
+      message:
+        "Re-exports are not allowed. Import and use the value directly in this module.",
+    },
+    {
+      selector: "ExportNamedDeclaration[specifiers.length>0]:not([source])",
+      message:
+        "Avoid grouped exports. Export each value inline at its declaration site instead.",
+    },
   ],
 });
