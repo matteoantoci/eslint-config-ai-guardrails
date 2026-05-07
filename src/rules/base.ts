@@ -41,6 +41,7 @@ export const createBaseRules = (): Linter.RulesRecord => ({
   "unicorn/prefer-top-level-await": "off",
   "unicorn/prevent-abbreviations": "off",
   "no-useless-undefined": "off",
+  "unicorn/prefer-export-from": "off",
   "unicorn/prefer-at": "error",
   "unicorn/prefer-negative-index": "error",
 });
