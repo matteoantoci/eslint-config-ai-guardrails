@@ -1,5 +1,6 @@
 import type { Linter } from "eslint";
 import { functionalPreset } from "./presets/functional.js";
+import { reactPreset } from "./presets/react.js";
 import { prettierConfig, recommendedPreset } from "./presets/recommended.js";
 import {
   typescriptPreset,
@@ -10,6 +11,7 @@ import { createCommentRules } from "./rules/comments.js";
 import { createComplexityRules } from "./rules/complexity.js";
 import { createFunctionalRules } from "./rules/functional.js";
 import { createImportRules } from "./rules/imports.js";
+import { createReactRules } from "./rules/react.js";
 import { createReExportRules } from "./rules/re-exports.js";
 import { createRestrictionRules } from "./rules/restrictions.js";
 import { getSecurityRules } from "./rules/security.js";
@@ -22,6 +24,7 @@ interface AiGuardrailsConfig {
   recommended: Linter.Config;
   typescript: Linter.Config;
   functional: Linter.Config;
+  react: Linter.Config;
 }
 
 interface AiGuardrailsCreate {
@@ -41,6 +44,7 @@ interface AiGuardrailsRules {
   security: Linter.RulesRecord;
   sonarjs: Linter.RulesRecord;
   testOverrides: Linter.RulesRecord;
+  react: Linter.RulesRecord;
 }
 
 interface AiGuardrails {
@@ -55,6 +59,7 @@ const aiGuardrails: AiGuardrails = {
     recommended: recommendedPreset,
     typescript: typescriptPreset,
     functional: functionalPreset,
+    react: reactPreset,
   },
   create: {
     typescript: createTypeScriptPreset,
@@ -70,6 +75,7 @@ const aiGuardrails: AiGuardrails = {
     security: getSecurityRules(),
     sonarjs: getSonarJSRules(),
     testOverrides: createTestOverrides(),
+    react: createReactRules(),
   },
   prettier: prettierConfig,
 };

@@ -63,6 +63,7 @@ npm install -D eslint prettier typescript \
   eslint-plugin-security eslint-plugin-sonarjs \
   eslint-plugin-functional eslint-plugin-canonical \
   eslint-plugin-prefer-arrow-functions eslint-plugin-no-comments \
+  eslint-plugin-react eslint-plugin-react-hooks \
   eslint-config-prettier eslint-plugin-prettier
 ```
 
@@ -74,6 +75,7 @@ Choose your strictness:
 |--------|----------|-------------|
 | `recommended` | Most projects | `...aiGuardrails.config.recommended` |
 | `typescript` | TypeScript codebases | `...aiGuardrails.config.typescript` |
+| `react` | React/Next.js projects | `...aiGuardrails.config.react` |
 | `functional` ⭐ | FP-only codebases | `...aiGuardrails.config.functional` |
 
 ### 🧪 Test File Overrides
@@ -144,6 +146,13 @@ Common patterns:
 - 🚫 **No `this` expressions** — Pure functions
 - 🚫 **No loops** — Use `map`, `filter`, `reduce`
 
+### `react`
+- ⚛️ **No inline components** — Prevents defining components inside components
+- 🔑 **No array index keys** — Prevents unstable React keys
+- 🪝 **Hooks rules** — Enforces rules of hooks and exhaustive deps
+- 🔀 **Ternary over `&&`** — Prevents leaked falsy values in JSX
+- 📏 **100 lines/function** — Relaxed limit for React components (vs 50 default)
+
 ## 🔧 Framework Examples
 
 ### Next.js
@@ -183,25 +192,24 @@ export default [
 
 ```js
 import aiGuardrails from 'eslint-config-ai-guardrails';
-import reactPlugin from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
 
 export default [
-  {
-    files: ['**/*.{ts,tsx}'],
-    plugins: { react: reactPlugin, 'react-hooks': reactHooks },
-    rules: {
-      ...reactPlugin.configs.recommended.rules,
-      ...reactHooks.configs.recommended.rules,
-    },
-  },
   {
     files: ['**/*.{ts,tsx}'],
     ...aiGuardrails.config.recommended,
     rules: {
       ...aiGuardrails.config.recommended.rules,
       ...aiGuardrails.config.typescript.rules,
+      ...aiGuardrails.config.react.rules,
     },
+    plugins: {
+      ...aiGuardrails.config.recommended.plugins,
+      ...aiGuardrails.config.react.plugins,
+    },
+  },
+  {
+    files: ['**/*.test.{ts,tsx}', '**/__tests__/**'],
+    rules: aiGuardrails.rules.testOverrides,
   },
   aiGuardrails.prettier,
   { ignores: ['dist/**', 'node_modules/**'] },
@@ -230,16 +238,14 @@ export default [
 
 ### Functional rules blocking React components
 
-React uses classes and `this`. Either exclude React files or disable specific rules:
+React class components conflict with `functional/no-classes` and `functional/no-this-expressions`. Use function components exclusively:
 
 ```js
-{
-  files: ['**/components/**/*.tsx'],
-  rules: {
-    'functional/no-class-inheritance': 'off',
-    'functional/no-this-expression': 'off',
-  },
-}
+// ❌ Wrong
+class MyComponent extends React.Component { ... }
+
+// ✅ Correct
+const MyComponent = () => { ... }
 ```
 
 ### TypeScript not detecting your tsconfig
@@ -301,6 +307,7 @@ aiGuardrails.rules.security      // Security plugin rules
 aiGuardrails.rules.sonarjs       // SonarJS rules
 aiGuardrails.rules.reExports     // Canonical re-export rules
 aiGuardrails.rules.testOverrides // Relaxations for test files
+aiGuardrails.rules.react         // React hooks, components, JSX rules
 ```
 
 ## 📄 License

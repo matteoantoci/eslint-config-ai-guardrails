@@ -42,6 +42,7 @@ export const createBaseRules = (): Linter.RulesRecord => ({
   "unicorn/prevent-abbreviations": "off",
   "no-useless-undefined": "off",
   "unicorn/prefer-export-from": "off",
+  "unicorn/numeric-separators-style": "off",
   "unicorn/prefer-at": "error",
   "unicorn/prefer-negative-index": "error",
 });
