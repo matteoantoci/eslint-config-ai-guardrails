@@ -36,6 +36,8 @@ export const createBaseRules = (): Linter.RulesRecord => ({
     },
   ],
   "unicorn/no-null": "off",
+  "unicorn/catch-error-name": "off",
+  "unicorn/no-useless-undefined": "off",
   "unicorn/no-array-callback-reference": "off",
   "unicorn/prefer-global-this": "off",
   "unicorn/prefer-top-level-await": "off",

@@ -17,5 +17,4 @@ export const createTestOverrides = (): Linter.RulesRecord => ({
   "@typescript-eslint/no-unsafe-call": "off",
   "@typescript-eslint/no-unsafe-argument": "off",
   "no-restricted-syntax": "off",
-  "unicorn/no-useless-undefined": "off",
 });
